@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import Productos from "../Page/Producto";
-import Clientes from "../Page/Cliente"
+
+import Categoria from "../Page/Categoria";
+
 
 
 const AppRoutes = () => {
@@ -8,7 +10,9 @@ const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<Productos />} />
-            <Route path="/Clientes" element={<Clientes />} />
+
+            <Route path="/Categorias" element={<Categoria />} />
+
         </Routes>
     )
 }
