@@ -3,6 +3,23 @@ import { Table } from "react-bootstrap";
 import { ProductoService } from "../../Services/ProductService";
 
 const ProductosTable = () => {
+    
+    // const initializeNewProduct = ()=> {
+    //     return {
+    //         id: 0,
+    //         denominacion: "",
+    //         descripcion: "",
+    //         tiempoEstimadoCocina: 0,
+    //         precioVenta: 0,
+    //         costo: 0,
+    //         urlImagen: "",
+    //         fechaAlta: new Date(),
+    //         fechaModificacion: new Date(),
+    //         fechaBaja: new Date()
+
+    //    }
+    //}
+    
     const [productos, setProductos] = useState([]);
     useEffect(() => {
         const fetchProductos = async () => {
@@ -18,32 +35,24 @@ const ProductosTable = () => {
                 <Table hover>
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>denominacion</th>
-                            <th>descripcion</th>
-                            <th>tiempoEstimadoCocina</th>
-                            <th>precioVenta</th>
-                            <th>costo</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            <th>ID</th>
+                            <th>Denominación</th>
+                            <th>Descripción</th>
+                            <th>Precio del Proveedor del Producto</th>
+                            <th>Precio de Venta</th>
+                            <th>Categoria</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {productos.map(producto => (
+                        {productos.map(producto => (
                             <tr key={producto.id}>
                                 <td>{producto.id}</td>
-                                <td>{producto.nombre}</td>
-                                <td>{producto.descripcion}</td>
-                                <td>{producto.tiempoEstimadoCocina}</td>
-                                <td>{producto.precioVenta}</td>
-                                <td>{producto.costo}</td>
+                                <td>{producto.nombreProducto}</td>
+                                <td>{producto.descripcionProducto}</td>
+                                <td>{producto.precioProveedorProducto}</td>
+                                <td>{producto.precioVentaProducto}</td>
                             </tr>
-                        ))} */}
-                        {
-                            productos.map(producto => (
-                                <tr key={producto.id}>
-                            ))
-                        }
+                        ))}
                     </tbody>
                 </Table>
         </>
