@@ -4,10 +4,14 @@ import { ProductoService } from "../../Services/ProductService";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
+import ModalDeleteProduct from "../DeleteModal/DeleteModal";
 
 const ProductosTable = () => {
     
     const [productos, setProductos] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
     useEffect(() => {
         const fetchProductos = async () => {
             const productos = await ProductoService.getProductos();
@@ -16,6 +20,26 @@ const ProductosTable = () => {
         };
         fetchProductos();
     }, []);
+
+    const handleShowModal = (producto) => {
+        setSelectedProduct(producto);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedProduct(null);
+        setShowModal(false);
+    };
+
+    const handleDeleteProduct = async () => {
+        try {
+            await ProductoService.deleteProducto(selectedProduct.id);
+            setProductos(productos.filter(p => p.id !== selectedProduct.id));
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error);
+        }
+    };
 
     return (
         <>
@@ -45,11 +69,16 @@ const ProductosTable = () => {
                                 <td>{producto.categoria?.nombreCategoria || "Sin categoría"}</td>
                                 <td><DemandaButton/></td>
                                 <td><EditButton/></td>
-                                <td><DeleteButton/></td>
+                                <td><DeleteButton onClick={() => handleShowModal(producto)}/></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
+                <ModalDeleteProduct
+                show={showModal}
+                handleClose={handleCloseModal}
+                handleDelete={handleDeleteProduct}
+                />
         </>
     );
 };
