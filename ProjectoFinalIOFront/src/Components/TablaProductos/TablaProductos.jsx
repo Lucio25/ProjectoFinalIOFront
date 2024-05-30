@@ -4,22 +4,6 @@ import { ProductoService } from "../../Services/ProductService";
 
 const ProductosTable = () => {
     
-    // const initializeNewProduct = ()=> {
-    //     return {
-    //         id: 0,
-    //         denominacion: "",
-    //         descripcion: "",
-    //         tiempoEstimadoCocina: 0,
-    //         precioVenta: 0,
-    //         costo: 0,
-    //         urlImagen: "",
-    //         fechaAlta: new Date(),
-    //         fechaModificacion: new Date(),
-    //         fechaBaja: new Date()
-
-    //    }
-    //}
-    
     const [productos, setProductos] = useState([]);
     useEffect(() => {
         const fetchProductos = async () => {
@@ -51,6 +35,7 @@ const ProductosTable = () => {
                                 <td>{producto.descripcionProducto}</td>
                                 <td>{producto.precioProveedorProducto}</td>
                                 <td>{producto.precioVentaProducto}</td>
+                                <td>{producto.categoria?.nombreCategoria || "Sin categoría"}</td>
                             </tr>
                         ))}
                     </tbody>
