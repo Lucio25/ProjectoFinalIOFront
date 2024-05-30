@@ -12,7 +12,7 @@ function NavBar() {
           <Nav className="me-auto">
             <Nav.Link href="/Categorias">Categoria</Nav.Link>
             <Nav.Link href="#home">Venta</Nav.Link>
-            <Nav.Link href="/Clientes">Cliente</Nav.Link>
+            <Nav.Link href="/Cliente">Cliente</Nav.Link>
             <Nav.Link href="#home">Orden de Compra</Nav.Link>
             <Nav.Link href="#home">Proveedor</Nav.Link>
           </Nav>
