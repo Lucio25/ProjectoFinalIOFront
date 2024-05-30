@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { ProductoService } from "../../Services/ProductService";
+import DeleteButton from "../DeleteButton/DeleteButton";
+import EditButton from "../EditButton/EditButton";
+import DemandaButton from "../DemandaButton/DemandaButton";
 
 const ProductosTable = () => {
     
@@ -16,6 +19,7 @@ const ProductosTable = () => {
 
     return (
         <>
+            <Button variant="dark" style={{float: 'right', margin: "1rem"}}>Añadir Producto</Button>
                 <Table hover>
                     <thead>
                         <tr>
@@ -25,6 +29,9 @@ const ProductosTable = () => {
                             <th>Precio del Proveedor del Producto</th>
                             <th>Precio de Venta</th>
                             <th>Categoria</th>
+                            <th>Demanda</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +43,9 @@ const ProductosTable = () => {
                                 <td>{producto.precioProveedorProducto}</td>
                                 <td>{producto.precioVentaProducto}</td>
                                 <td>{producto.categoria?.nombreCategoria || "Sin categoría"}</td>
+                                <td><DemandaButton/></td>
+                                <td><EditButton/></td>
+                                <td><DeleteButton/></td>
                             </tr>
                         ))}
                     </tbody>
