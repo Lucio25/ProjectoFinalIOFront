@@ -5,12 +5,14 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
 import ModalDeleteProduct from "../DeleteModal/DeleteModal";
+import AddProductModal from "../CreateModal/CreateModal";
 
 const ProductosTable = () => {
     
     const [productos, setProductos] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [deleteProduct, setSelectedProduct] = useState(null);
+    const [showCreateModal, setShowCreateModal] = useState(false);
 
     useEffect(() => {
         const fetchProductos = async () => {
@@ -31,10 +33,18 @@ const ProductosTable = () => {
         setShowModal(false);
     };
 
+    const handleCloseCreateModal = () => {
+        setShowCreateModal(false);
+    };
+
+    const handleCreateProduct = (newProduct) => {
+        setProductos([...productos, newProduct]); // Agregar el nuevo producto a la lista de productos
+    };
+
     const handleDeleteProduct = async () => {
         try {
-            await ProductoService.deleteProducto(selectedProduct.id);
-            setProductos(productos.filter(p => p.id !== selectedProduct.id));
+            await ProductoService.deleteProducto(deleteProduct.id);
+            setProductos(productos.filter(p => p.id !== deleteProduct.id));
             handleCloseModal();
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
@@ -43,7 +53,7 @@ const ProductosTable = () => {
 
     return (
         <>
-            <Button variant="dark" style={{float: 'right', margin: "1rem"}}>Añadir Producto</Button>
+            <Button onClick={() => setShowCreateModal(true)} variant="dark" style={{float: 'right', margin: "1rem"} }>Añadir Producto</Button>
                 <Table hover>
                     <thead>
                         <tr>
@@ -79,6 +89,11 @@ const ProductosTable = () => {
                 handleClose={handleCloseModal}
                 handleDelete={handleDeleteProduct}
                 />
+                <AddProductModal
+                show={showCreateModal}
+                handleClose={handleCloseCreateModal}
+                handleCreateProduct={handleCreateProduct} // Pasa la función para crear productos al modal
+            />
         </>
     );
 };
