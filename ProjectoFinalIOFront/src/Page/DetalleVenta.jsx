@@ -1,22 +1,34 @@
-import { useEffect, useState } from "react";
+
 import { Table } from "react-bootstrap";
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
 import { VentasService } from "../Services/VentasService";
 
-const DetalleVentaTable = (id) => {
+const DetalleVentaTable = () => {
     
-    
-    const [venta, setVenta] = useState([]);
-    useEffect(() => {
-        const fetchventa = async () => {
-            const vta = await VentasService.getVenta(id);
-            setClientes(vta);
-            console.log(vta);
-        };
-        fetchventa();
-    }, []);
+    const { id } = useParams();
+    const [venta, setVenta] = useState(null);
+ 
 
+    useEffect(() => {
+        const fetchVenta = async () => {
+            const vta = await VentasService.getVenta(id);
+            setVenta(vta);
+        };
+
+        if (id) {
+            fetchVenta();
+        }
+    }, [id]);
+
+    if (!venta) {
+        return <div>Loading...</div>;
+    }
+    console.log(venta, "venta")
+console.log(venta.id, "venta id")
     return (
         <>
+        <h1>Detalle Venta</h1>
                 <Table hover>
                     <thead>
                         <tr>
@@ -28,17 +40,18 @@ const DetalleVentaTable = (id) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {venta.map(v => (
-                            <tr key={v.id}>
-                                <td>{v.id}</td>
-                                <td>{v.ventaProductos}</td>
-                                <td>{}</td>
-                                <td>{v.ventaProductos}</td>
-                                <td>{}</td>
-                            </tr>
-                        ))}
+                    {venta.ventaProductos && venta.ventaProductos.map((ventaProducto) => (
+                    <tr key={ventaProducto.id}>
+                        <td>{venta.id}</td>
+                        <td>{ventaProducto.producto.nombreProducto}</td>
+                        <td>{ventaProducto.cantVentaProducto}</td>
+                        <td>{ventaProducto.producto.precioVentaProducto*ventaProducto.cantVentaProducto}</td>
+                        <td>{ventaProducto.producto.precioVentaProducto}</td>
+                    </tr>
+                     ))} 
                     </tbody>
                 </Table>
+                
         </>
     );
 };

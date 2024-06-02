@@ -12,10 +12,23 @@ export const VentasService = {
 
     // Obtener una venta por ID
     getVenta: async (id) => {
-        const response = await fetch(`${BASE_URL}/api/venta/${id}`);
-        console.log(response)
-        const data = await response.json();
-        return data;
+        try {
+            const response = await fetch(`${BASE_URL}/api/venta/${id}`);
+            console.log(id)
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+            }
+
+            // Intentar convertir la respuesta a JSON
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } catch (error) {
+            // Capturar y loguear el error
+            console.error("Error fetching venta:", error.message);
+            throw error;  // Re-lanzar el error para manejarlo en el componente llamante
+        }
     },
 
     // Crear una nueva venta

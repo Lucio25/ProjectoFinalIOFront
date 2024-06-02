@@ -13,10 +13,15 @@ const VentasTable = () => {
     
     const [ventas, setVentas] = useState([]);
 
-    const handleDetalleVentaClick = (id) => {
-        navigate(`/detalleventa/${id}`);
+    const handleDetalleVentaClick = (v) => {
+
+        navigate(`/detalleventa/${v.id}`);
+        console.log(v.id, "id pa")
+        
       };
 
+      
+    
     useEffect(() => {
         const fetchVentas = async () => {
             const VentasArreglo = await VentasService.getVentas();
@@ -49,13 +54,14 @@ const VentasTable = () => {
                                 <td>{v.estadoVenta}</td>
                                 <td>{v.totalCostoVenta}</td>
                                 <td>{v.cliente.nombreCliente}</td>
-                                <td><DetalleVentaButton onClick={() => handleDetalleVentaClick(v.id)}/></td>
+                                <td><DetalleVentaButton onClick={() => handleDetalleVentaClick(v)}/></td>
                                 <td><EditButton/></td>
                                 <td><DeleteButton/></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
+              
         </>
     );
 };
