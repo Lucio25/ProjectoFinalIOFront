@@ -13,7 +13,7 @@ function NavBar() {
             <Nav.Link href="/Categorias">Categoria</Nav.Link>
             <Nav.Link href="/Ventas">Venta</Nav.Link>
             <Nav.Link href="/Cliente">Cliente</Nav.Link>
-            <Nav.Link href="#home">Orden de Compra</Nav.Link>
+            <Nav.Link href="/OrdenCompra">Orden de Compra</Nav.Link>
             <Nav.Link href="#home">Proveedor</Nav.Link>
           </Nav>
         </Navbar.Collapse>

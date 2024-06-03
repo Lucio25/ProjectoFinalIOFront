@@ -4,6 +4,7 @@ import Categoria from "../Page/Categoria";
 import Cliente from "../Page/Cliente";
 import Venta from "../Page/Venta";
 import DetalleVenta from "../Page/DetalleVenta";
+import OrdenCompra from "../Page/OrdenCompra.jsx";
 
 
 
@@ -16,6 +17,7 @@ const AppRoutes = () => {
             <Route path="/Categorias" element={<Categoria />} />
             <Route path="/Ventas" element={<Venta />} />
             <Route path="/detalleventa/:id" element={<DetalleVenta />} />
+            <Route path="/OrdenCompra" element={<OrdenCompra />} />
         </Routes>
     )
 }

@@ -20,8 +20,7 @@ const ClientesTable = () => {
                 <Table hover>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Cuil</th>
+                            <th>ID</th>                            
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Mail</th>
@@ -32,7 +31,6 @@ const ClientesTable = () => {
                         {clientes.map(c => (
                             <tr key={c.id}>
                                 <td>{c.id}</td>
-                                <td>{c.cuilCliente}</td>
                                 <td>{c.nombreCliente}</td>
                                 <td>{c.apellidoCliente}</td>
                                 <td>{c.mailCliente}</td>
