@@ -53,7 +53,7 @@ const VentasTable = () => {
                                 <td>{v.id}</td>
                                 <td>{v.estadoVenta}</td>
                                 <td>{v.totalCostoVenta}</td>
-                                <td>{v.cliente.nombreCliente}</td>
+                                <td>{v.client_id}</td>
                                 <td><DetalleVentaButton onClick={() => handleDetalleVentaClick(v)}/></td>
                                 <td><EditButton/></td>
                                 <td><DeleteButton/></td>

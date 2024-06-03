@@ -1,10 +1,10 @@
-const BASE_URL = 'http://localhost:9192';
+const BASE_URL = 'http://localhost:3000';
 
 export const VentasService = {
 
     // Obtener todas las Ventas
     getVentas: async () => {
-        const response = await fetch(`${BASE_URL}/api/venta/all`);
+        const response = await fetch(`${BASE_URL}/sales/`);
         const data = await response.json();
         console.log(data)
         return data;
@@ -13,7 +13,7 @@ export const VentasService = {
     // Obtener una venta por ID
     getVenta: async (id) => {
         try {
-            const response = await fetch(`${BASE_URL}/api/venta/${id}`);
+            const response = await fetch(`${BASE_URL}/sales/${id}`);
             console.log(id)
             // Verificar si la respuesta es exitosa
             if (!response.ok) {
