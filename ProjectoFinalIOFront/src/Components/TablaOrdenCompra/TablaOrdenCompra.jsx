@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import {OrdenCompraService }from  "../../Services/OrdenCompraService" 
 import { format } from 'date-fns';
 import EditButton from "../EditButton/EditButton";
@@ -48,6 +48,7 @@ const OrdenDeCompraTable = () => {
     };
     return (
         <>
+                <Button variant="dark" style={{float: 'right', margin: "1rem"}}>Añadir Orden de Compra</Button>
                 <Table hover>
                     <thead>
                         <tr>
