@@ -14,7 +14,7 @@ function NavBar() {
             <Nav.Link href="/Ventas">Venta</Nav.Link>
             <Nav.Link href="/Cliente">Cliente</Nav.Link>
             <Nav.Link href="/OrdenCompra">Orden de Compra</Nav.Link>
-            <Nav.Link href="#home">Proveedor</Nav.Link>
+            <Nav.Link href="/Proveedor">Proveedor</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
