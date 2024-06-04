@@ -4,20 +4,14 @@ import { ProductoService } from "../../Services/ProductService";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
-
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal";
 import AgregarModal from "../Modals/AgregarModal/AgregarModal";
 import ModalEditProduct from "../Modals/EditModal/EditModal";
 import { CategoriaService } from "../../Services/CategoriaService";
 
-import ModalDeleteProduct from "../DeleteModal/DeleteModal";
-import AddProductModal from "../CreateModal/CreateModal";
-
-
 const ProductosTable = () => {
     
     const [productos, setProductos] = useState([]);
-
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -25,11 +19,6 @@ const ProductosTable = () => {
     const [maxId, setMaxId] = useState(0);
     const [editedProduct, setEditedProduct] = useState(null);
     const [categorias, setCategorias] = useState([]);
-
-    const [showModal, setShowModal] = useState(false);
-    const [deleteProduct, setSelectedProduct] = useState(null);
-    const [showCreateModal, setShowCreateModal] = useState(false);
-
 
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -62,28 +51,12 @@ const ProductosTable = () => {
         setShowDeleteModal(false);
     };
 
-
     
     const handleDeleteProduct = async () => {
         try {
             await ProductoService.deleteProducto(selectedProduct.id);
             setProductos(productos.filter(p => p.id !== selectedProduct.id));
             handleCloseDeleteModal();
-
-    const handleCloseCreateModal = () => {
-        setShowCreateModal(false);
-    };
-
-    const handleCreateProduct = (newProduct) => {
-        setProductos([...productos, newProduct]); // Agregar el nuevo producto a la lista de productos
-    };
-
-    const handleDeleteProduct = async () => {
-        try {
-            await ProductoService.deleteProducto(deleteProduct.id);
-            setProductos(productos.filter(p => p.id !== deleteProduct.id));
-            handleCloseModal();
-
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
         }
@@ -158,11 +131,7 @@ const ProductosTable = () => {
 
     return (
         <>
-
             <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={() => setShowAddModal(true)} >Añadir Producto</Button>
-
-            <Button onClick={() => setShowCreateModal(true)} variant="dark" style={{float: 'right', margin: "1rem"} }>Añadir Producto</Button>
-
                 <Table hover>
                     <thead>
                         <tr>
@@ -198,7 +167,6 @@ const ProductosTable = () => {
                 handleClose={handleCloseDeleteModal}
                 handleDelete={handleDeleteProduct}
                 />
-
                 <AgregarModal
                 show={showAddModal}
                 handleClose={() => setShowAddModal(false)}  // Cerrar el modal de añadir producto
@@ -212,12 +180,6 @@ const ProductosTable = () => {
                 editedProduct={editedProduct}
                 handleInputChange={handleInputChange}
                 selectedProduct={selectedProduct}
-
-                <AddProductModal
-                show={showCreateModal}
-                handleClose={handleCloseCreateModal}
-                handleCreateProduct={handleCreateProduct} // Pasa la función para crear productos al modal
-
             />
         </>
     );
