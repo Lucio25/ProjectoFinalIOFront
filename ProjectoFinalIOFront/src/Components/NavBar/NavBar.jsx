@@ -11,10 +11,10 @@ function NavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/Categorias">Categoria</Nav.Link>
-            <Nav.Link href="#home">Venta</Nav.Link>
+            <Nav.Link href="/Ventas">Venta</Nav.Link>
             <Nav.Link href="/Cliente">Cliente</Nav.Link>
-            <Nav.Link href="#home">Orden de Compra</Nav.Link>
-            <Nav.Link href="#home">Proveedor</Nav.Link>
+            <Nav.Link href="/OrdenCompra">Orden de Compra</Nav.Link>
+            <Nav.Link href="/Proveedor">Proveedor</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

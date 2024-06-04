@@ -1,10 +1,10 @@
-const BASE_URL = 'http://localhost:3308';
+const BASE_URL = 'http://localhost:3000';
 
 export const ClienteService = {
 
     // Obtener todos los clientes
     getClientes: async () => {
-        const response = await fetch(`${BASE_URL}/api/cliente/all`);
+        const response = await fetch(`${BASE_URL}/clients/`);
         const data = await response.json();
         console.log(data)
         return data;
@@ -12,14 +12,14 @@ export const ClienteService = {
 
     // Obtener un cliente por ID
     getCliente: async (id) => {
-        const response = await fetch(`${BASE_URL}/api/cliente/${id}`);
+        const response = await fetch(`${BASE_URL}/clients/${id}`);
         const data = await response.json();
         return data;
     },
 
     // Crear un nuevo cliente
     createCliente: async (cliente) => {
-        const response = await fetch(`${BASE_URL}/api/cliente/create`, {
+        const response = await fetch(`${BASE_URL}/clients/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ export const ClienteService = {
 
     // Actualizar un cliente por ID
     updatecliente: async (id, cliente) => {
-        const response = await fetch(`${BASE_URL}/api/cliente/${id}`, {
+        const response = await fetch(`${BASE_URL}/clients/${id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ export const ClienteService = {
 
     // Eliminar un cliente por ID
     deleteCliente: async (id) => {
-        await fetch(`${BASE_URL}/api/cliente/${id}`, {
+        await fetch(`${BASE_URL}/clients/${id}`, {
             method: "DELETE"
         });
     }
