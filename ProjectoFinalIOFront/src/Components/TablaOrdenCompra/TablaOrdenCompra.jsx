@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import EditButton from "../EditButton/EditButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
-import ModalDeleteProduct from "../DeleteModal/DeleteModal";
+import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 
 const OrdenDeCompraTable = () => {
 

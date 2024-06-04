@@ -4,7 +4,7 @@ import { ProviderService } from  "../../Services/ProviderService.js"
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
-import ModalDeleteProduct from "../DeleteModal/DeleteModal";
+import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 
 const ProveedorTable = () => {
     

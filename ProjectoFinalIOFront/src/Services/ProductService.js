@@ -1,10 +1,10 @@
-const BASE_URL = 'http://localhost:9192';
+const BASE_URL = 'http://localhost:3000';
 
 export const ProductoService = {
 
     // Obtener todos los productos
     getProductos: async () => {
-        const response = await fetch(`${BASE_URL}/api/productos/all`);
+        const response = await fetch(`${BASE_URL}/products/`);
         const data = await response.json();
         console.log(data)
         return data;
@@ -12,14 +12,14 @@ export const ProductoService = {
 
     // Obtener un producto por ID
     getProducto: async (id) => {
-        const response = await fetch(`${BASE_URL}/productos/${id}`);
+        const response = await fetch(`${BASE_URL}/products/${id}`);
         const data = await response.json();
         return data;
     },
 
     // Crear un nuevo producto
     createProducto: async (producto) => {
-        const response = await fetch(`${BASE_URL}/api/productos/create`, {
+        const response = await fetch(`${BASE_URL}/products/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ export const ProductoService = {
 
     // Actualizar un producto por ID
     updateProducto: async (id, producto) => {
-        const response = await fetch(`${BASE_URL}/api/productos/${id}`, {
+        const response = await fetch(`${BASE_URL}/products/${id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ export const ProductoService = {
 
     // Eliminar un producto por ID
     deleteProducto: async (id) => {
-        await fetch(`${BASE_URL}/api/productos/${id}`, {
+        await fetch(`${BASE_URL}/products/${id}`, {
             method: "DELETE"
         });
     }

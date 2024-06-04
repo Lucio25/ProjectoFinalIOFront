@@ -4,7 +4,7 @@ import { CategoriaService } from "../../Services/CategoriaService";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
-import ModalDeleteProduct from "../DeleteModal/DeleteModal";
+import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 const CategoriasTable = () => {
 
     const [categorias, setCategorias] = useState([]);
