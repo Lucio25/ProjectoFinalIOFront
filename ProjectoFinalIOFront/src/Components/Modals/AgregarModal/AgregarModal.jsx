@@ -18,7 +18,6 @@ const AgregarModal = ({ show, handleClose, addProduct, nextId }) => {
     });
 
     const [categorias, setCategorias] = useState([]);
-    const [categoriaSelect, setCategoriaSelect] = useState();
 
     useEffect(() => {
         const fetchCategorias = async () => {
