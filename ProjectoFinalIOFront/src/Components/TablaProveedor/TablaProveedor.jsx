@@ -28,7 +28,7 @@ const ProveedorTable = () => {
     
 
     const handleAddProvider = (provider) => {
-        setProveedores(provider);
+        setProveedores(prevProveedores => [...prevProveedores, provider]);
     };  
 
 
