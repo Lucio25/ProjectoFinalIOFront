@@ -26,7 +26,7 @@ const CategoriasTable = () => {
     };
 
     const handleCloseModal = () => {
-        setSelectedProvider(null);
+        setSelectedCategories(null);
         setShowModal(false);
     };
 
