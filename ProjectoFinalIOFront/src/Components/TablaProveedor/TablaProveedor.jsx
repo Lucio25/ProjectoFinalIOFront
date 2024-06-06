@@ -5,23 +5,33 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
+import AgregarModalProvider from "../Modals/AgregarModal/AgregarModalProvider.jsx";
 
 const ProveedorTable = () => {
     
     
     const [proveedores, setProveedores] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedProvider, setSelectedProvider] = useState(null);
+    const [selectedProvider, setSelectedProvider] = useState(null); 
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [maxId, setMaxId] = useState(0);
     useEffect(() => {
         const fetchProveedores = async () => {
             const proveedores = await ProviderService.getProviders();
             setProveedores(proveedores);
-            console.log(proveedores);
+            console.log(proveedores); 
+            const maxId = proveedores.reduce((max, proveedores) => (proveedores.id > max ? proveedores.id : max), 0);
+            setMaxId(maxId);
         };
         fetchProveedores();
-    }, []);
-
+    }, []);   
     
+
+    const handleAddProvider = (provider) => {
+        setProveedores(provider);
+    };  
+
+
     const handleShowModal = (proveedores) => {
         setSelectedProvider(proveedores);
         setShowModal(true);
@@ -29,7 +39,7 @@ const ProveedorTable = () => {
 
     const handleCloseModal = () => {
         setSelectedProvider(null);
-        setShowModal(false);
+        setShowAddModal(false);
     };
 
     const handleDeleteProvider = async () => {
@@ -44,13 +54,12 @@ const ProveedorTable = () => {
 
     return (
         <>
-                <Button variant="dark" style={{float: 'right', margin: "1rem"}}>Añadir Proveedor</Button>
+                <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={()=>setShowAddModal(true)}>Añadir Proveedor</Button>
                 <Table hover>
                     <thead>
                         <tr>
                             <th>ID</th>                            
                             <th>NombreProveedor</th>
-                            <th>Demanda</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
@@ -60,7 +69,6 @@ const ProveedorTable = () => {
                             <tr key={p.id}>
                                 <td>{p.id}</td>
                                 <td>{p.nombreProveedor}</td>
-                                <td><DemandaButton/></td>
                                 <td><EditButton/></td>
                                 <td><DeleteButton onClick={() => handleShowModal(p)}/></td>
                             </tr>
@@ -71,7 +79,14 @@ const ProveedorTable = () => {
                 show={showModal}
                 handleClose={handleCloseModal}
                 handleDelete={handleDeleteProvider}
-                />
+                />  
+                <AgregarModalProvider
+                show={showAddModal}
+                handleClose={() => setShowAddModal(false)}  // Cerrar el modal de añadir producto
+                addProvider={handleAddProvider}
+                nextId={maxId + 1}
+                /> 
+
         </>
     );
 };
