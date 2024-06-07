@@ -3,18 +3,23 @@ import { Table, Button} from "react-bootstrap";
 import { ProviderService } from  "../../Services/ProviderService.js" 
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
-import DemandaButton from "../DemandaButton/DemandaButton";
+
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
-import AgregarModalProvider from "../Modals/AgregarModal/AgregarModalProvider.jsx";
+import AgregarModalProvider from "../Modals/AgregarModal/AgregarModalProvider.jsx"; 
+import ModalEditProvider from "../Modals/EditModal/EditModalProveedor.jsx";
 
 const ProveedorTable = () => {
     
     
     const [proveedores, setProveedores] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+  
     const [selectedProvider, setSelectedProvider] = useState(null); 
     const [showAddModal, setShowAddModal] = useState(false);
-    const [maxId, setMaxId] = useState(0);
+    const [maxId, setMaxId] = useState(0); 
+    const [editedProvider, setEditedProvider] = useState(null);  
+    const [showEditModal, setShowEditModal] = useState(false); 
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    
     useEffect(() => {
         const fetchProveedores = async () => {
             const proveedores = await ProviderService.getProviders();
@@ -32,14 +37,16 @@ const ProveedorTable = () => {
     };  
 
 
-    const handleShowModal = (proveedores) => {
+    const handleShowDeleteModal = (proveedores) => {
         setSelectedProvider(proveedores);
-        setShowModal(true);
+        setShowDeleteModal(true);
     };
 
     const handleCloseModal = () => {
         setSelectedProvider(null);
-        setShowAddModal(false);
+        setShowDeleteModal(false);
+        setShowAddModal(false); 
+        setEditedProvider(null); 
     };
 
     const handleDeleteProvider = async () => {
@@ -50,6 +57,42 @@ const ProveedorTable = () => {
         } catch (error) {
             console.error('Error al eliminar el proveedor:', error);
         }
+    };  
+
+    
+    //boton editar
+    const handleEditProvider = async (updateValues) => {
+        try {
+            await ProviderService.updateProvider(selectedProvider.id, updateValues);
+            
+            setProveedores(proveedores.map(p => (p.id === selectedProvider.id ? updateValues : p)));
+            handleCloseEditModal();
+        } catch (error) {
+            console.error('Error al editar el proveedor:', error);
+        }
+    };  
+
+    const handleShowEditModal = (proveedores) => {
+        setSelectedProvider(proveedores);
+        setEditedProvider(proveedores)
+        setShowEditModal(true);
+    };  
+
+    const handleCloseEditModal = () => {
+        setSelectedProvider(null);
+        setEditedProvider(null)
+        setShowEditModal(false);
+    };  
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        setEditedProvider(prevState => ({
+            ...prevState,
+            [name]: value
+            
+        }));
+    
     };
 
     return (
@@ -69,14 +112,14 @@ const ProveedorTable = () => {
                             <tr key={p.id}>
                                 <td>{p.id}</td>
                                 <td>{p.nombreProveedor}</td>
-                                <td><EditButton/></td>
-                                <td><DeleteButton onClick={() => handleShowModal(p)}/></td>
+                                <td><EditButton onClick={()=>handleShowEditModal(p)}/></td>
+                                <td><DeleteButton onClick={() => handleShowDeleteModal(p)}/></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
                 <ModalDeleteProduct
-                show={showModal}
+                show={showDeleteModal}
                 handleClose={handleCloseModal}
                 handleDelete={handleDeleteProvider}
                 />  
@@ -85,10 +128,18 @@ const ProveedorTable = () => {
                 handleClose={() => setShowAddModal(false)}  // Cerrar el modal de añadir producto
                 addProvider={handleAddProvider}
                 nextId={maxId + 1}
-                /> 
+                />   
+
+                <ModalEditProvider
+                showModal={showEditModal}
+                handleCloseModal={handleShowEditModal}
+                handleEditProvider={handleEditProvider}
+                editedProvider={editedProvider}
+                handleInputChange={handleInputChange}
+                selectedProvider={selectedProvider}
+                />
 
         </>
-    );
-};
-
+    ); 
+  };  
 export default ProveedorTable;
