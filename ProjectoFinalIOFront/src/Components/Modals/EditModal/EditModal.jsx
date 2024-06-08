@@ -53,9 +53,9 @@ const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, edit
                     </div>
                     <div className="form-group">
                         <label htmlFor="categoriaProducto">Categoría:</label>
-                        <select className="form-control" id="categoriaProducto" name="categoriaProducto" value={editedProduct?.category.nombreCategoria || selectedProduct?.category.nombreCategoria} onChange={handleInputChange}>
+                        <select className="form-control" id="category_id" name="category_id" value={editedProduct?.category.id || selectedProduct?.category.id} onChange={handleInputChange}>
                             {categorias.map(categoria => (
-                                <option key={categoria.id} value={categoria.nombreCategoria}>
+                                <option key={categoria.id} value={categoria.id}>
                                     {categoria.nombreCategoria}
                                 </option>
                             ))}
