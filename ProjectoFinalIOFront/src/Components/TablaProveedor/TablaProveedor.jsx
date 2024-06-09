@@ -136,7 +136,8 @@ const ProveedorTable = () => {
                 handleEditProvider={handleEditProvider}
                 editedProvider={editedProvider}
                 handleInputChange={handleInputChange}
-                selectedProvider={selectedProvider}
+                selectedProvider={selectedProvider}  
+                handleClose={handleCloseModal}
                 />
 
         </>
