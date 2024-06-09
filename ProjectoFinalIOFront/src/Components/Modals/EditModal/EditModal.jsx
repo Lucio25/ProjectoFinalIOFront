@@ -52,6 +52,10 @@ const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, edit
                         <input type="number" className="form-control" id="precioVentaProducto" name="precioVentaProducto" value={editedProduct?.precioVentaProducto || selectedProduct?.precioVentaProducto} onChange={handleInputChange} />
                     </div>
                     <div className="form-group">
+                        <label htmlFor="stock">Stock:</label>
+                        <input type="number" className="form-control" id="stock" name="stock" value={editedProduct?.stock || selectedProduct?.stock} onChange={handleInputChange} />
+                    </div>
+                    <div className="form-group">
                         <label htmlFor="categoriaProducto">Categoría:</label>
                         <select className="form-control" id="category_id" name="category_id" value={editedProduct?.category.id || selectedProduct?.category.id} onChange={handleInputChange}>
                             {categorias.map(categoria => (

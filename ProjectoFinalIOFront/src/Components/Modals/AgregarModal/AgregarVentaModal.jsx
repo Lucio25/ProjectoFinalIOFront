@@ -3,6 +3,9 @@ import { useState, useEffect} from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { ClienteService } from '../../../Services/ClienteService';
 import { VentasService } from '../../../Services/VentasService';
+import { ProductoService } from '../../../Services/ProductService'; 
+import { DetalleVentaService } from '../../../Services/DetalleVentaService'; 
+
 
 const AgregarVentaModal = ({ show, handleClose, addVenta, nextId }) => {
     const [newVenta, setNewVenta] = useState({
@@ -13,6 +16,10 @@ const AgregarVentaModal = ({ show, handleClose, addVenta, nextId }) => {
     });
 
     const [clientes, setClientes] = useState([]);
+    const [productos, setProductos] = useState([]);
+    const [productosSeleccionados, setProductosSeleccionados] = useState([]);
+    const [cantidadProductos, setCantidadProductos] = useState({});
+
 
     useEffect(() => {
         const fetchClientes = async () => {
@@ -23,8 +30,17 @@ const AgregarVentaModal = ({ show, handleClose, addVenta, nextId }) => {
                 console.error('Error fetching clients:', error);
             }
         };
+        const fetchProductos = async () => {
+            try {
+                const productosData = await ProductoService.getProductos();
+                setProductos(productosData);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
 
         fetchClientes();
+        fetchProductos();
     }, []);
 
 
@@ -37,13 +53,33 @@ const AgregarVentaModal = ({ show, handleClose, addVenta, nextId }) => {
     }, [nextId]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewVenta({
-            ...newVenta,
-            [name]: value
-        });
-   
+        const { name, value, options } = e.target;
+        if (name === 'productos') {
+            const selectedOptions = Array.from(options)
+                .filter(option => option.selected)
+                .map(option => option.value);
+            console.log('Productos seleccionados:', selectedOptions);
+            setProductosSeleccionados(prevSelected => {
+                // Creamos un nuevo conjunto que incluye los productos seleccionados
+                const newSelectedArray = [...prevSelected, ...selectedOptions.filter(option => !prevSelected.includes(option))];
+                // Convertimos el conjunto de nuevo a un arreglo
+                return newSelectedArray;
+            });
+        }  else if (name.startsWith('cantidad')) {
+            const productoId = name.split('-')[1];
+            const cantidad = parseInt(value);
+            setCantidadProductos(prevState => ({
+                ...prevState,
+                [productoId]: cantidad
+            }));
+        }else {
+            setNewVenta({
+                ...newVenta,
+                [name]: value
+            });
+        }
     };
+    
 
     const handleSubmit = async () => {
         try {
@@ -63,6 +99,20 @@ const AgregarVentaModal = ({ show, handleClose, addVenta, nextId }) => {
             console.log('Venta creada:', createdVenta);
             if (!createdVenta) {
                 throw new Error('La venta no pudo ser creada');
+            }
+            for (const productoId of productosSeleccionados) {
+                const cantidad = cantidadProductos[productoId];
+                const producto = productos.find(producto => producto.id === parseInt(productoId));
+                const costoSubtotal = producto.precioProducto;
+                const costoTotal = costoSubtotal * cantidad;
+                const detalleVenta = {
+                    sale_id: createdVenta.id,
+                    product_id: parseInt(productoId),
+                    cantVentaProducto: cantidad,
+                    subTotalVentaProducto: costoSubtotal,
+                    totalCostoVentaProducto: costoTotal
+                };
+                await DetalleVentaService.createDetalleVenta(detalleVenta);
             }
             addVenta(createdVenta);
             
@@ -115,6 +165,41 @@ const AgregarVentaModal = ({ show, handleClose, addVenta, nextId }) => {
                             ))}
                         </Form.Control>
                     </Form.Group>
+                    <Form.Group controlId="productos">
+                        <Form.Label>Productos</Form.Label>
+                        <Form.Control
+                            as="select"
+                            name="productos"
+                            multiple
+                            value={productosSeleccionados}
+                            onChange={handleChange}
+                        >
+                            {productos.map(producto => (
+                                <option 
+                                    key={producto.id} 
+                                    value={producto.id}
+                                    style={{
+                                        cursor: 'pointer',
+                                        backgroundColor: productosSeleccionados.includes(producto.id) ? '#d4edda' : '',
+                                        color: productosSeleccionados.includes(producto.id.toString()) ? '#155724' : '',
+                                    }}
+                                >
+                                    {producto.nombreProducto}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    {productosSeleccionados.map(productoId => (
+                        <Form.Group key={productoId} controlId={`cantidad-${productoId}`}>
+                            <Form.Label>Cantidad de {productos.find(producto => producto.id === parseInt(productoId)).nombreProducto}</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name={`cantidad-${productoId}`}
+                                value={cantidadProductos[productoId] || ''}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    ))}
                 </Form>
             </Modal.Body>
             <Modal.Footer>
