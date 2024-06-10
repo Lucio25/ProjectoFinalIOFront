@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { VentasService } from "../Services/VentasService";
 
+
+
 const DetalleVentaTable = () => {
     
     const { id } = useParams();
@@ -41,7 +43,7 @@ const DetalleVentaTable = () => {
                     <tbody>
                     {venta.product_sales && venta.product_sales.map((ventaProducto) => (
                     <tr key={ventaProducto.id}>
-                        <td>{venta.id}</td>
+                        <td>{ventaProducto.id}</td>
                         <td>{ventaProducto.product.nombreProducto}</td>
                         <td>{ventaProducto.cantVentaProducto}</td>
                         <td>{ventaProducto.product.precioVentaProducto*ventaProducto.cantVentaProducto}</td>
