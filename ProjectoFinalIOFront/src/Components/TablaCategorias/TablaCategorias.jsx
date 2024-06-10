@@ -44,7 +44,7 @@ const CategoriasTable = () => {
 
     const handleDeleteCategories = async () => {
         try {
-            await CategoriaService.deleteCategories(selectedCategories.id);
+            await CategoriaService.deleteCategoria(selectedCategories.id);
             setCategorias(categorias.filter(c => c.id !== selectedCategories.id));
             handleCloseModal();
         } catch (error) {
