@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { Table, Button} from "react-bootstrap";
+
 import { CategoriaService } from "../../Services/CategoriaService";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
@@ -18,9 +21,11 @@ const CategoriasTable = () => {
 
     useEffect(() => {
         const fetchCategorias = async () => {
-	const CategoriasTable = () => {
-            console.log(categorias);
-        };
+            const categorias = await CategoriaService.getCategorias();
+            setCategorias(categorias);
+            const maxId = categorias.reduce((max, c) => (c.id > max ? c.id : max), 0);
+            setMaxId(maxId);
+        }
         fetchCategorias();
     }, []);  
 
@@ -92,6 +97,8 @@ const CategoriasTable = () => {
                         </tr>
 			</thead>
                     	<tbody>
+                            {categorias.map(categoria => (
+                            <tr key={categoria.id}>
                                 <td>{categoria.id}</td>
                                 <td>{categoria.nombreCategoria}</td>
                                 <td>{categoria.descripcionCategoria}</td>
@@ -128,3 +135,5 @@ const CategoriasTable = () => {
 
         </>
     );
+};  
+export default CategoriasTable;
