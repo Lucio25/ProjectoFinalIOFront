@@ -51,7 +51,6 @@ const ProductosTable = () => {
         setShowDeleteModal(false);
     };
 
-    
     const handleDeleteProduct = async () => {
         try {
             await ProductoService.deleteProducto(selectedProduct.id);
@@ -84,6 +83,7 @@ const ProductosTable = () => {
 
     const handleShowEditModal = (producto) => {
         setSelectedProduct(producto);
+        setEditedProduct(producto);
         setShowEditModal(true);
     };
 
@@ -97,7 +97,6 @@ const ProductosTable = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
     let parsedValue;
-    
     // Verificar si el campo es el precioProveedorProducto o el precioVentaProducto
     if (name === "precioProveedorProducto" || name === "precioVentaProducto") {
         // Convertir el valor a tipo double
@@ -111,6 +110,20 @@ const ProductosTable = () => {
             }));
         } else {
             // Si es un número válido, establecer el valor convertido a tipo double
+            setEditedProduct(prevState => ({
+                ...prevState,
+                [name]: parsedValue
+            }));
+        }
+    } else if (name.includes("id")) {
+        parsedValue = parseInt(value, 10);
+
+        if (isNaN(parsedValue)) {
+            setEditedProduct(prevState => ({
+                ...prevState,
+                [name]: null
+            }));
+        } else {
             setEditedProduct(prevState => ({
                 ...prevState,
                 [name]: parsedValue
@@ -140,6 +153,7 @@ const ProductosTable = () => {
                             <th>Descripción</th>
                             <th>Precio del Proveedor del Producto</th>
                             <th>Precio de Venta</th>
+                            <th>Stock Actual del Producto</th>
                             <th>Categoria</th>
                             <th>Demanda</th>
                             <th>Editar</th>
@@ -154,6 +168,7 @@ const ProductosTable = () => {
                                 <td>{producto.descripcionProducto}</td>
                                 <td>{producto.precioProveedorProducto}</td>
                                 <td>{producto.precioVentaProducto}</td>
+                                <td>{producto.stock}</td>
                                 <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
                                 <td ><DemandaButton/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
@@ -180,7 +195,8 @@ const ProductosTable = () => {
                 editedProduct={editedProduct}
                 handleInputChange={handleInputChange}
                 selectedProduct={selectedProduct}
-            />
+                categorias={categorias}
+                />
         </>
     );
 };

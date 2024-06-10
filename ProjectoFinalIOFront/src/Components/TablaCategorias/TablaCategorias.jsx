@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
 import { CategoriaService } from "../../Services/CategoriaService";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
-import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx"; 
+import DemandaButton from "../DemandaButton/DemandaButton";
+import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 import AgregarModalCategory from "../Modals/AgregarModal/AgregarModalCategory.jsx";
 import ModalEditCategory from "../Modals/EditModal/EditModalCategory.jsx";
 
@@ -19,25 +18,23 @@ const CategoriasTable = () => {
 
     useEffect(() => {
         const fetchCategorias = async () => {
-            const categorias = await CategoriaService.getCategorias();
-            setCategorias(categorias);
+	const CategoriasTable = () => {
             console.log(categorias);
         };
         fetchCategorias();
     }, []);  
 
-    
     const handleAddCategory = (category) => {
         setCategorias(prevCategorias => [...prevCategorias, category]);
     };  
-
-    
     const handleShowModal = (categoria) => {
         setSelectedCategories(categoria);
         setShowModal(true);
     };
 
     const handleCloseModal = () => {
+        setSelectedProvider(null);
+
         setSelectedCategories(null);
         setShowModal(false);
     };
@@ -55,7 +52,6 @@ const CategoriasTable = () => {
     const handleEditCategory= async (updateValues) => {
         try {
             await CategoriaService.updateCategoria(selectedCategories.id, updateValues);
-            
             setCategorias(categorias.map(p => (p.id === selectedCategories.id ? updateValues : p)));
             handleCloseEditModal();
         } catch (error) {
@@ -80,11 +76,8 @@ const CategoriasTable = () => {
         setEditedCategory(prevState => ({
             ...prevState,
             [name]: value
-            
         }));
-    
     };
-
     return (
         <>
                 <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={()=>setShowAddModal(true)}>Añadir Categoria</Button>   
@@ -97,10 +90,8 @@ const CategoriasTable = () => {
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {categorias.map(categoria => (
-                            <tr key={categoria.id}>
+			</thead>
+                    	<tbody>
                                 <td>{categoria.id}</td>
                                 <td>{categoria.nombreCategoria}</td>
                                 <td>{categoria.descripcionCategoria}</td>
@@ -108,7 +99,7 @@ const CategoriasTable = () => {
                                 <td><DeleteButton onClick={() => handleShowModal(categoria)}/></td>
                             </tr>
                         ))}
-                    </tbody>
+			</tbody>
                 </Table>
                 <ModalDeleteProduct
                 show={showModal}
@@ -130,12 +121,10 @@ const CategoriasTable = () => {
                 editedCategory={editedCategory}
                 handleInputChange={handleInputChange}
                 selectedCategories={selectedCategories}  
+
             
                 />
   
+
         </>
     );
-
-};
-
-export default CategoriasTable;

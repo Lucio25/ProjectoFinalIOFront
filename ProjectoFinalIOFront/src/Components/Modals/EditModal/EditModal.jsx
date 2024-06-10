@@ -2,18 +2,28 @@
 import { Modal, Button } from 'react-bootstrap';
 
 
-const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, editedProduct, handleInputChange, selectedProduct }) => {
+const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, editedProduct, handleInputChange, selectedProduct, categorias }) => {
 
 
     const handleSaveChanges = () => {
         const updatedValues = {};
         
         // Iterar sobre las claves de editedProduct
-        Object.keys(editedProduct).forEach(key => {
+        Object.keys(selectedProduct).forEach(key => {
             // Si el valor en editedProduct es diferente al de selectedProduct, usar el valor de editedProduct
             // De lo contrario, usar el valor de selectedProduct
-            updatedValues[key] = editedProduct[key] == selectedProduct[key] ? selectedProduct[key] : editedProduct[key];
+            if (Object.prototype.hasOwnProperty.call(editedProduct, key) && editedProduct[key] !== selectedProduct[key]) {
+                updatedValues[key] = editedProduct[key];
+            } else {
+                updatedValues[key] = selectedProduct[key];
+            }
         });
+
+            // Agregar category_id al objeto updatedValues si es diferente en editedProduct
+        if (editedProduct.category_id !== selectedProduct.category_id) {
+            updatedValues.category_id = editedProduct.category_id;
+        }
+    
 
         handleEditProduct(updatedValues);
     };
@@ -41,7 +51,20 @@ const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, edit
                         <label htmlFor="precioVentaProducto">Precio de Venta:</label>
                         <input type="number" className="form-control" id="precioVentaProducto" name="precioVentaProducto" value={editedProduct?.precioVentaProducto || selectedProduct?.precioVentaProducto} onChange={handleInputChange} />
                     </div>
-                    {/* Agrega aquí los otros campos de edición */}
+                    <div className="form-group">
+                        <label htmlFor="stock">Stock:</label>
+                        <input type="number" className="form-control" id="stock" name="stock" value={editedProduct?.stock || selectedProduct?.stock} onChange={handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="categoriaProducto">Categoría:</label>
+                        <select className="form-control" id="category_id" name="category_id" value={editedProduct?.category.id || selectedProduct?.category.id} onChange={handleInputChange}>
+                            {categorias.map(categoria => (
+                                <option key={categoria.id} value={categoria.id}>
+                                    {categoria.nombreCategoria}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </form>
             </Modal.Body>
             <Modal.Footer>
@@ -51,5 +74,5 @@ const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, edit
         </Modal>
     );
 };
-
+//
 export default ModalEditProduct;

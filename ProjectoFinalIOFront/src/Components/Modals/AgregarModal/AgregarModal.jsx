@@ -11,6 +11,7 @@ const AgregarModal = ({show, handleClose, addProduct, nextId }) => {
         descripcionProducto: '',
         precioProveedorProducto: '',
         precioVentaProducto: '',
+        stock: '',
         categoria: '',
         fechaHoraAltaProducto: null,
         fechaHoraBajaProducto: null,
@@ -18,7 +19,6 @@ const AgregarModal = ({show, handleClose, addProduct, nextId }) => {
     });
 
     const [categorias, setCategorias] = useState([]);
-    const [categoriaSelect, setCategoriaSelect] = useState();
 
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -121,6 +121,16 @@ const AgregarModal = ({show, handleClose, addProduct, nextId }) => {
                             value={newProduct.precioVentaProducto}
                             onChange={handleChange}
                             min="0"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="stock">
+                        <Form.Label>Stock</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="stock"
+                            value={newProduct.stock}
+                            onChange={handleChange}
+                            min="1"
                         />
                     </Form.Group>
                     <Form.Group controlId="categoria">
