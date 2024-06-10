@@ -10,7 +10,6 @@ const CategoriasTable = () => {
 
     const [categorias, setCategorias] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedCategories, setSelectedCategories] = useState(null);
     const [selectedCategories, setSelectedCategories] = useState(null);  
     const [showAddModal, setShowAddModal] = useState(false);   
     const [maxId, setMaxId] = useState(0);   
@@ -23,15 +22,11 @@ const CategoriasTable = () => {
             console.log(categorias);
         };
         fetchCategorias();
-    }, []);
     }, []);  
-
 
     const handleAddCategory = (category) => {
         setCategorias(prevCategorias => [...prevCategorias, category]);
     };  
-
-
     const handleShowModal = (categoria) => {
         setSelectedCategories(categoria);
         setShowModal(true);
@@ -39,13 +34,13 @@ const CategoriasTable = () => {
 
     const handleCloseModal = () => {
         setSelectedProvider(null);
+
         setSelectedCategories(null);
         setShowModal(false);
     };
 
     const handleDeleteCategories = async () => {
         try {
-            await CategoriaService.deleteCategories(selectedCategories.id);
             await CategoriaService.deleteCategoria(selectedCategories.id);
             setCategorias(categorias.filter(c => c.id !== selectedCategories.id));
             handleCloseModal();
@@ -57,7 +52,6 @@ const CategoriasTable = () => {
     const handleEditCategory= async (updateValues) => {
         try {
             await CategoriaService.updateCategoria(selectedCategories.id, updateValues);
-
             setCategorias(categorias.map(p => (p.id === selectedCategories.id ? updateValues : p)));
             handleCloseEditModal();
         } catch (error) {
@@ -82,14 +76,10 @@ const CategoriasTable = () => {
         setEditedCategory(prevState => ({
             ...prevState,
             [name]: value
-
         }));
-
     };
-
     return (
         <>
-                <Button variant="dark" style={{float: 'right', margin: "1rem"}}>Añadir Categoria</Button>   
                 <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={()=>setShowAddModal(true)}>Añadir Categoria</Button>   
                 <Table hover>
                     <thead>
@@ -97,7 +87,6 @@ const CategoriasTable = () => {
                             <th>ID</th>
                             <th>Nombre de la Categoria</th>
                             <th>descripcion de la Categoria</th>
-                            <th>Demanda</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
@@ -106,8 +95,6 @@ const CategoriasTable = () => {
                                 <td>{categoria.id}</td>
                                 <td>{categoria.nombreCategoria}</td>
                                 <td>{categoria.descripcionCategoria}</td>
-                                <td><DemandaButton/></td>
-                                <td><EditButton/></td>
                                 <td><EditButton onClick={()=> handleShowEditModal(categoria)}/></td>
                                 <td><DeleteButton onClick={() => handleShowModal(categoria)}/></td>
                             </tr>
@@ -135,7 +122,9 @@ const CategoriasTable = () => {
                 handleInputChange={handleInputChange}
                 selectedCategories={selectedCategories}  
 
+            
                 />
+  
 
         </>
     );

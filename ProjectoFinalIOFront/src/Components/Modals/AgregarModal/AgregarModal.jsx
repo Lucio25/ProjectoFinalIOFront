@@ -3,8 +3,8 @@ import { useState, useEffect} from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { ProductoService } from '../../../Services/ProductService';
 import { CategoriaService } from '../../../Services/CategoriaService';
-
-const AgregarModal = ({ show, handleClose, addProduct, nextId }) => {
+ 
+const AgregarModal = ({show, handleClose, addProduct, nextId }) => {
     const [newProduct, setNewProduct] = useState({
         id: nextId,
         nombreProducto: '',
