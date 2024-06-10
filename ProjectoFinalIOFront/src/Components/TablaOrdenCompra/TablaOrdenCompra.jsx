@@ -1,54 +1,91 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Table, Button } from "react-bootstrap";
-import {OrdenCompraService }from  "../../Services/OrdenCompraService" 
+import {OrdenCompraService }from  "../../Services/OrdenCompraService";
+import {ProviderService }from  "../../Services/ProviderService.js";
 import { format } from 'date-fns';
 import EditButton from "../EditButton/EditButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
+import AgregarOrdenModal from "../Modals/AgregarModal/AgregarOrdenModal.jsx";
+
 
 const OrdenDeCompraTable = () => {
 
+    const navigate = useNavigate();
+
     const [orCompra, setOrCompra] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [proveedores, setProveedores] = useState([]);
+
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [maxId, setMaxId] = useState(0);
+    const [editedOrder, setEditedOrder] = useState(null);
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     useEffect(() => {
         const fetchOrdenCompra = async () => {
             const ordenCompra = await OrdenCompraService.getOrdenCompras();
             setOrCompra(ordenCompra);
             console.log(ordenCompra);
+            const maxId = orCompra.reduce((max, orden) => (orden.id > max ? orden.id : max), 0);
+            setMaxId(maxId);
         };
         fetchOrdenCompra();
     }, []);
+    useEffect(() => {
+        const fetchProveedores = async () => {
+            const proveedores = await ProviderService.getProviders();
+            setProveedores(proveedores);
+            console.log(proveedores);
+        };
+        fetchProveedores();
+    }, []);
+
+
     const fechasFormateadas = orCompra.map(item => {
         const fechaFormateada = format(new Date(item.fechaEstimadaEntrega), 'dd/MM/yyyy HH:mm:ss');
         return { ...item, fechaFormateada };
       });
 
+      const handleDetalleOrdenCompraClick = (oc) => {
+
+        navigate(`/detalleorden/${oc.id}`);
+        console.log(oc.id, "id pa")
+        
+      };
      
-    const handleShowModal = (orden) => {
+    const handleShowDeleteModal = (orden) => {
         setSelectedOrder(orden);
-        setShowModal(true);
+        setShowDeleteModal(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseDeleteModal = () => {
         setSelectedOrder(null);
-        setShowModal(false);
+        setShowDeleteModal(false);
     };
 
     const handleDeleteOrder = async () => {
         try {
             await OrdenCompraService.deleteOrdenCompra(selectedOrder.id);
             setOrCompra(orCompra.filter(o => o.id !== selectedOrder.id));
-            handleCloseModal();
+            handleCloseDeleteModal();
         } catch (error) {
             console.error('Error al eliminar la orden:', error);
         }
     };
+
+    const handleAddOrder = (orden) => {
+       
+      
+        setOrCompra((prevOrders) => [...prevOrders, orden]);
+    };
     return (
         <>
-                <Button variant="dark" style={{float: 'right', margin: "1rem"}}>Añadir Orden de Compra</Button>
+                <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={() => setShowAddModal(true)}>Añadir Orden de Compra</Button>
                 <Table hover>
                     <thead>
                         <tr>
@@ -56,29 +93,42 @@ const OrdenDeCompraTable = () => {
                             <th>Costo total de la Orden</th>
                             <th>Estado de la Orden</th>
                             <th>Fecha estimada de entrega</th>
-                            <th>Demanda</th>
+                            <th>Proveedor</th>
+                            <th>Detalle Orden Compra</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {fechasFormateadas.map(oc => (
+                        {fechasFormateadas.map(oc => {
+                            // Buscar el cliente correspondiente en el array de clientes
+                            const proveedor = proveedores.find(p => p.id === oc.provider_id);
+                            const nombreProveedor = proveedor ? proveedor.nombreProveedor : 'Proveedor no encontrado';
+                            return(
                             <tr key={oc.id}>
                                 <td>{oc.id}</td>
                                 <td>{oc.totalCostoOrdenCompra}</td>
                                 <td>{oc.estadoOrdenCompra}</td>
                                 <td>{oc.fechaFormateada || "null"}</td>
-                                <td><DemandaButton/></td>
+                                <td>{nombreProveedor }</td>
+                                <td><DemandaButton onClick={() => handleDetalleOrdenCompraClick(oc)}/></td>
                                 <td><EditButton/></td>
-                                <td><DeleteButton onClick={() => handleShowModal(oc)}/></td>
+                                <td><DeleteButton onClick={() => handleShowDeleteModal(oc)}/></td>
                             </tr>
-                        ))}
+                            )
+})}
                     </tbody>
                 </Table>
                 <ModalDeleteProduct
-                show={showModal}
-                handleClose={handleCloseModal}
+                show={showDeleteModal}
+                handleClose={handleCloseDeleteModal}
                 handleDelete={handleDeleteOrder}
+                />
+                <AgregarOrdenModal
+                show={showAddModal}
+                handleClose={() => setShowAddModal(false)}  // Cerrar el modal de añadir producto
+                addOrder={handleAddOrder}
+                nextId={maxId + 1}
                 />
         </>
     );

@@ -33,7 +33,7 @@ export const VentasService = {
 
     // Crear una nueva venta
     createVenta: async (venta) => {
-        const response = await fetch(`${BASE_URL}/api/venta/create`, {
+        const response = await fetch(`${BASE_URL}/sales/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ export const VentasService = {
 
     // Actualizar una venta por ID
     updateVenta: async (id, venta) => {
-        const response = await fetch(`${BASE_URL}/api/venta/${id}`, {
+        const response = await fetch(`${BASE_URL}/sales/${id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ export const VentasService = {
 
     // Eliminar una venta por ID
     deleteVenta: async (id) => {
-        await fetch(`${BASE_URL}/api/venta/${id}`, {
+        await fetch(`${BASE_URL}/sales/${id}`, {
             method: "DELETE"
         });
     }
