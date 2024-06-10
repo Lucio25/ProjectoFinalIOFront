@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { VentasService } from "../Services/VentasService";
 
+
+
 const DetalleVentaTable = () => {
     
     const { id } = useParams();
@@ -14,6 +16,7 @@ const DetalleVentaTable = () => {
         const fetchVenta = async () => {
             const vta = await VentasService.getVenta(id);
             setVenta(vta);
+            console.log(vta.product_sales)
         };
 
         if (id) {
@@ -24,8 +27,6 @@ const DetalleVentaTable = () => {
     if (!venta) {
         return <div>Loading...</div>;
     }
-    console.log(venta, "venta")
-console.log(venta.id, "venta id")
     return (
         <>
         <h1>Detalle Venta</h1>
@@ -40,13 +41,13 @@ console.log(venta.id, "venta id")
                         </tr>
                     </thead>
                     <tbody>
-                    {venta.ventaProductos && venta.ventaProductos.map((ventaProducto) => (
+                    {venta.product_sales && venta.product_sales.map((ventaProducto) => (
                     <tr key={ventaProducto.id}>
-                        <td>{venta.id}</td>
-                        <td>{ventaProducto.producto.nombreProducto}</td>
+                        <td>{ventaProducto.id}</td>
+                        <td>{ventaProducto.product.nombreProducto}</td>
                         <td>{ventaProducto.cantVentaProducto}</td>
-                        <td>{ventaProducto.producto.precioVentaProducto*ventaProducto.cantVentaProducto}</td>
-                        <td>{ventaProducto.producto.precioVentaProducto}</td>
+                        <td>{ventaProducto.product.precioVentaProducto*ventaProducto.cantVentaProducto}</td>
+                        <td>{ventaProducto.product.precioVentaProducto}</td>
                     </tr>
                      ))} 
                     </tbody>

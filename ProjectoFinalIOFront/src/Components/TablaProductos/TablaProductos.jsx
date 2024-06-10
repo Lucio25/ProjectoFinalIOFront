@@ -51,7 +51,6 @@ const ProductosTable = () => {
         setShowDeleteModal(false);
     };
 
-    
     const handleDeleteProduct = async () => {
         try {
             await ProductoService.deleteProducto(selectedProduct.id);
@@ -154,6 +153,7 @@ const ProductosTable = () => {
                             <th>Descripción</th>
                             <th>Precio del Proveedor del Producto</th>
                             <th>Precio de Venta</th>
+                            <th>Stock Actual del Producto</th>
                             <th>Categoria</th>
                             <th>Demanda</th>
                             <th>Editar</th>
@@ -168,6 +168,7 @@ const ProductosTable = () => {
                                 <td>{producto.descripcionProducto}</td>
                                 <td>{producto.precioProveedorProducto}</td>
                                 <td>{producto.precioVentaProducto}</td>
+                                <td>{producto.stock}</td>
                                 <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
                                 <td ><DemandaButton/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
@@ -195,7 +196,7 @@ const ProductosTable = () => {
                 handleInputChange={handleInputChange}
                 selectedProduct={selectedProduct}
                 categorias={categorias}
-            />
+                />
         </>
     );
 };
