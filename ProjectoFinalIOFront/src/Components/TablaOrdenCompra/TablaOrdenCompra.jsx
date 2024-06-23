@@ -123,6 +123,7 @@ const OrdenDeCompraTable = () => {
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
                 handleDelete={handleDeleteOrder}
+                msj="esta Orden de compra"
                 />
                 <AgregarOrdenModal
                 show={showAddModal}

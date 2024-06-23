@@ -122,6 +122,7 @@ const ProveedorTable = () => {
                 show={showDeleteModal}
                 handleClose={handleCloseModal}
                 handleDelete={handleDeleteProvider}
+                msj="este proveedor"
                 />  
                 <AgregarModalProvider
                 show={showAddModal}

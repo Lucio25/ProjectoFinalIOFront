@@ -184,6 +184,7 @@ const VentasTable = () => {
                 show={showDeleteVentaModal}
                 handleClose={handleShowDeleteVentaModal}
                 handleDelete={handleDeleteVenta}
+                msj="esta venta"
                 />
                 <AgregarVentaModal
                 show={showAddVentaModal}

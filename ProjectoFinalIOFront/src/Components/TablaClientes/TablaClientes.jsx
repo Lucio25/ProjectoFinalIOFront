@@ -22,6 +22,8 @@ const ClientesTable = () => {
             const clientes = await ClienteService.getClientes();
             setClientes(clientes);
             console.log(clientes);
+            const maxId = clientes.reduce((max, c) => (c.id > max ? c.id : max), 0);
+            setMaxId(maxId);
         };
         fetchClientes();
     }, []);  
@@ -120,6 +122,7 @@ const ClientesTable = () => {
                 show={showModal}
                 handleClose={handleCloseModal}
                 handleDelete={handleDeleteClient}
+                msj="este cliente"
                 /> 
                   <AgregarModalClient
                 show={showAddModal}

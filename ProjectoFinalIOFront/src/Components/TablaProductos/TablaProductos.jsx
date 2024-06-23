@@ -8,6 +8,8 @@ import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal";
 import AgregarModal from "../Modals/AgregarModal/AgregarModal";
 import ModalEditProduct from "../Modals/EditModal/EditModal";
 import { CategoriaService } from "../../Services/CategoriaService";
+import { useNavigate } from 'react-router-dom';
+
 
 const ProductosTable = () => {
     
@@ -19,6 +21,8 @@ const ProductosTable = () => {
     const [maxId, setMaxId] = useState(0);
     const [editedProduct, setEditedProduct] = useState(null);
     const [categorias, setCategorias] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -81,6 +85,9 @@ const ProductosTable = () => {
         }
     };
 
+    const handleShowDemandaModal = (producto) => {
+        navigate(`/demandaproducto/${producto.id}`);
+    };
     const handleShowEditModal = (producto) => {
         setSelectedProduct(producto);
         setEditedProduct(producto);
@@ -170,7 +177,7 @@ const ProductosTable = () => {
                                 <td>{producto.precioVentaProducto}</td>
                                 <td>{producto.stock}</td>
                                 <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
-                                <td ><DemandaButton/></td>
+                                <td ><DemandaButton onClick={() => handleShowDemandaModal(producto)}/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
                                 <td><DeleteButton onClick={() => handleShowDeleteModal(producto)}/></td>
                             </tr>
@@ -181,6 +188,7 @@ const ProductosTable = () => {
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
                 handleDelete={handleDeleteProduct}
+                msj="este producto"
                 />
                 <AgregarModal
                 show={showAddModal}

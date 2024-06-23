@@ -4,7 +4,6 @@ import { Table, Button} from "react-bootstrap";
 import { CategoriaService } from "../../Services/CategoriaService";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
-import DemandaButton from "../DemandaButton/DemandaButton";
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 import AgregarModalCategory from "../Modals/AgregarModal/AgregarModalCategory.jsx";
 import ModalEditCategory from "../Modals/EditModal/EditModalCategory.jsx";
@@ -38,8 +37,6 @@ const CategoriasTable = () => {
     };
 
     const handleCloseModal = () => {
-        setSelectedProvider(null);
-
         setSelectedCategories(null);
         setShowModal(false);
     };
@@ -96,7 +93,7 @@ const CategoriasTable = () => {
                             <th>Eliminar</th>
                         </tr>
 			</thead>
-                    	<tbody>
+                    <tbody>
                             {categorias.map(categoria => (
                             <tr key={categoria.id}>
                                 <td>{categoria.id}</td>
@@ -112,6 +109,7 @@ const CategoriasTable = () => {
                 show={showModal}
                 handleClose={handleCloseModal}
                 handleDelete={handleDeleteCategories}
+                msj="esta Categoria"
                 />  
 
                 <AgregarModalCategory
