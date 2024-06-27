@@ -156,11 +156,16 @@ const ProductosTable = () => {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Denominación</th>
+                            <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Precio del Proveedor del Producto</th>
                             <th>Precio de Venta</th>
-                            <th>Stock Actual del Producto</th>
+                            <th>Stock Actual</th>
+                            <th>Stock Seguridad</th>
+                            <th>EOQ</th>
+                            <th>COPA</th>
+                            <th>Tiempo entre Ordenes</th>
+                            <th>Costo Almac.</th>
+                            <th>CGI</th>
                             <th>Categoria</th>
                             <th>Demanda</th>
                             <th>Editar</th>
@@ -173,9 +178,14 @@ const ProductosTable = () => {
                                 <td>{producto.id}</td>
                                 <td>{producto.nombreProducto}</td>
                                 <td>{producto.descripcionProducto}</td>
-                                <td>{producto.precioProveedorProducto}</td>
                                 <td>{producto.precioVentaProducto}</td>
                                 <td>{producto.stock}</td>
+                                <td>{producto.stockSeguridad}</td>
+                                <td>{producto.cantidadOptimaPedido}</td>
+                                <td>{producto.cantidadOrdenesPorAño}</td>
+                                <td>{producto.tiempoEntreOrdenes}</td>
+                                <td>{producto.costoAlmacenamiento}</td>
+                                <td>{producto.costoTotalInventario}</td>
                                 <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
                                 <td ><DemandaButton onClick={() => handleShowDemandaModal(producto)}/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>

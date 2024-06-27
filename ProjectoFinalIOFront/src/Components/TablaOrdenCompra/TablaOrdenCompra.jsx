@@ -9,7 +9,20 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 import DemandaButton from "../DemandaButton/DemandaButton";
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 import AgregarOrdenModal from "../Modals/AgregarModal/AgregarOrdenModal.jsx";
+import CambioEstadoButton from "../CambioEstadoButton/CambioEstadoButton.jsx";
 
+const estadosOrdenCompra = {
+    0: 'pedido',
+    1: 'preparando',
+    2: 'en_camino',
+    3: 'entregado'
+};
+
+const getEstadoNombre = (numero) => estadosOrdenCompra[numero] || 'Estado desconocido';
+
+const getEstadoNumero = (nombre) => {
+    return Object.keys(estadosOrdenCompra).find(key => estadosOrdenCompra[key] === nombre);
+};
 
 const OrdenDeCompraTable = () => {
 
@@ -25,6 +38,8 @@ const OrdenDeCompraTable = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+
+  
 
     useEffect(() => {
         const fetchOrdenCompra = async () => {
@@ -79,10 +94,21 @@ const OrdenDeCompraTable = () => {
     };
 
     const handleAddOrder = (orden) => {
-       
-      
         setOrCompra((prevOrders) => [...prevOrders, orden]);
     };
+    const handleChangeState = async (oc) => {
+        const currentNumero = getEstadoNumero(oc.estadoOrdenCompra);
+        if (currentNumero < 3) {
+            const updatedNumero = parseInt(currentNumero) + 1;
+            const updatedEstado = getEstadoNombre(updatedNumero);
+            try {
+                await OrdenCompraService.updateOrdenCompra(oc.id, { estadoOrdenCompra: updatedNumero });
+                setOrCompra(orCompra.map(order => order.id === oc.id ? { ...order, estadoOrdenCompra: updatedEstado } : order));
+            } catch (error) {
+                console.error('Error al actualizar el estado de la orden:', error);
+            }
+        }
+    }
     return (
         <>
                 <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={() => setShowAddModal(true)}>Añadir Orden de Compra</Button>
@@ -108,7 +134,12 @@ const OrdenDeCompraTable = () => {
                             <tr key={oc.id}>
                                 <td>{oc.id}</td>
                                 <td>{oc.totalCostoOrdenCompra}</td>
-                                <td>{oc.estadoOrdenCompra}</td>
+                                <td>
+                                    {oc.estadoOrdenCompra} 
+                                    {oc.estadoOrdenCompra !== "entregado" && (
+                                        <CambioEstadoButton onClick={() => handleChangeState(oc)} />
+                                    )}
+                                </td>
                                 <td>{oc.fechaFormateada || "null"}</td>
                                 <td>{nombreProveedor }</td>
                                 <td><DemandaButton onClick={() => handleDetalleOrdenCompraClick(oc)}/></td>

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Table, Button} from "react-bootstrap";
 import { ProviderService } from  "../../Services/ProviderService.js" 
+import { useNavigate } from 'react-router-dom';
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 
 import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal.jsx";
 import AgregarModalProvider from "../Modals/AgregarModal/AgregarModalProvider.jsx"; 
 import ModalEditProvider from "../Modals/EditModal/EditModalProveedor.jsx";
+import DemandaButton from "../DemandaButton/DemandaButton.jsx";
 
 const ProveedorTable = () => {
     
@@ -19,6 +21,7 @@ const ProveedorTable = () => {
     const [editedProvider, setEditedProvider] = useState(null);  
     const [showEditModal, setShowEditModal] = useState(false); 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const navigate = useNavigate();
     
     useEffect(() => {
         const fetchProveedores = async () => {
@@ -31,6 +34,9 @@ const ProveedorTable = () => {
         fetchProveedores();
     }, []);   
     
+    const handleProveedorProductoClick = (proveedor) => {
+        navigate(`/proveedorProducto/${proveedor.id}`);
+    };
 
     const handleAddProvider = (provider) => {
         setProveedores(prevProveedores => [...prevProveedores, provider]);
@@ -94,7 +100,7 @@ const ProveedorTable = () => {
         }));
     
     };
-
+    
     return (
         <>
                 <Button variant="dark" style={{float: 'right', margin: "1rem"}} onClick={()=>setShowAddModal(true)}>Añadir Proveedor</Button>
@@ -103,6 +109,7 @@ const ProveedorTable = () => {
                         <tr>
                             <th>ID</th>                            
                             <th>NombreProveedor</th>
+                            <th>Productos del Proveedor</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
@@ -112,6 +119,7 @@ const ProveedorTable = () => {
                             <tr key={p.id}>
                                 <td>{p.id}</td>
                                 <td>{p.nombreProveedor}</td>
+                                <td><DemandaButton onClick={() => handleProveedorProductoClick(p)}/></td>
                                 <td><EditButton onClick={()=>handleShowEditModal(p)}/></td>
                                 <td><DeleteButton onClick={() => handleShowDeleteModal(p)}/></td>
                             </tr>
