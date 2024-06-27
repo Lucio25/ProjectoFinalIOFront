@@ -158,18 +158,19 @@ const ProductosTable = () => {
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Precio de Venta</th>
-                            <th>Stock Actual</th>
-                            <th>Stock Seguridad</th>
+                            <th>Categoria</th>
+                            <th>Venta</th>
+                            <th>Stock</th>
+                            <th>S S</th>
                             <th>EOQ</th>
                             <th>COPA</th>
-                            <th>Tiempo entre Ordenes</th>
+                            <th>Tiempo Ordenes</th>
                             <th>Costo Almac.</th>
                             <th>CGI</th>
-                            <th>Categoria</th>
-                            <th>Demanda</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            <th>σ</th>
+                            <th>D</th>
+                            <th>Edit</th>
+                            <th>Borrar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -178,6 +179,7 @@ const ProductosTable = () => {
                                 <td>{producto.id}</td>
                                 <td>{producto.nombreProducto}</td>
                                 <td>{producto.descripcionProducto}</td>
+                                <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
                                 <td>{producto.precioVentaProducto}</td>
                                 <td>{producto.stock}</td>
                                 <td>{producto.stockSeguridad}</td>
@@ -186,7 +188,7 @@ const ProductosTable = () => {
                                 <td>{producto.tiempoEntreOrdenes}</td>
                                 <td>{producto.costoAlmacenamiento}</td>
                                 <td>{producto.costoTotalInventario}</td>
-                                <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
+                                <td>{producto.desviacionEstandar}</td>
                                 <td ><DemandaButton onClick={() => handleShowDemandaModal(producto)}/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
                                 <td><DeleteButton onClick={() => handleShowDeleteModal(producto)}/></td>
