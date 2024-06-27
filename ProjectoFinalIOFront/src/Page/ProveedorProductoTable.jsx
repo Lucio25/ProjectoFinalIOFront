@@ -1,5 +1,5 @@
 
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { ProviderService } from "../Services/ProviderService";
@@ -8,6 +8,7 @@ import DeleteButton from "../Components/DeleteButton/DeleteButton";
 import ModalDeleteProduct from "../Components/Modals/DeleteModal/DeleteModal";
 import { ProductProviderService } from "../Services/ProductProviderService";
 import ModalEditProductProvider from "../Components/Modals/EditModal/EditProductProvider";
+import AgregarProveedorProductoModal from "../Components/Modals/AgregarModal/AgregarProveedorProductoModal";
 
 
 
@@ -60,7 +61,14 @@ const ProveedorProductoTable = () => {
     const handleDeleteProvider = async () => {
         try {
             await ProductProviderService.deleteproductProvider(selectedPP.id);
-            setProductProviders(productProviders.filter(pp => pp.id !== selectedPP.id));
+            const updatedPP = productProviders.filter(pp => pp.id !== selectedPP.id);
+            setProductProviders(updatedPP);
+            setProveedor(prevProveedor => ({
+                ...prevProveedor,
+                product_providers: updatedPP
+            }))
+            
+            window.location.reload()
             handleCloseModal();
         } catch (error) {
             console.error('Error al eliminar el producto del proveedor:', error);
@@ -87,6 +95,8 @@ const ProveedorProductoTable = () => {
                 ...prevProveedor,
                 product_providers: updatedPP
             }))
+            
+            window.location.reload()
             handleCloseEditModal();
         } catch (error) {
             console.error('Error al editar el producto del proveedor:', error);
@@ -104,12 +114,22 @@ const ProveedorProductoTable = () => {
     
     };
 
+    const addPP = (newPP) => {
+        const updatedPP = [...productProviders, newPP]
+        setProductProviders(updatedPP)
+        setMaxId(maxId +1)
+        setProveedor(prevProveedor => ({
+            ...prevProveedor,
+            product_providers: updatedPP
+        }))
+    }
 
     if (!proveedor) {
         return <div>Loading...</div>;
     }
     return (
         <>
+        <Button variant="dark" style={{ float: 'right', margin: "1rem" }} onClick={() => setShowAddModal(true)}>Agregar productos al proveedor</Button>
         <h1>Productos del proveedor {proveedor.nombreProveedor}</h1>
                 <Table hover>
                     <thead>
@@ -147,13 +167,19 @@ const ProveedorProductoTable = () => {
                 />  
                 <ModalEditProductProvider
                 showModal={showEditModal}
-                handleCloseModal={handleShowEditModal}
+                handleCloseModal={handleCloseEditModal}
                 handleEditProductProvider={handleEditProductProvider}
                 editedPP={editedPP}
                 handleInputChange={handleInputChange}
                 selectedPP={selectedPP}  
                 />
-                
+                <AgregarProveedorProductoModal
+                show={showAddModal}
+                handleClose={() => setShowAddModal(false)}
+                nextId = {maxId}
+                proveedor = {proveedor}
+                addPP = {addPP}
+                />
         </>
     );
 };
