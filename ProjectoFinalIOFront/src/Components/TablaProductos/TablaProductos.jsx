@@ -188,7 +188,7 @@ const ProductosTable = () => {
                                 <td>{producto.tiempoEntreOrdenes}</td>
                                 <td>{producto.costoAlmacenamiento}</td>
                                 <td>{producto.costoTotalInventario}</td>
-                                <td>{producto.desviacionEstandar}</td>
+                                <td>{producto.desviacionEstandar.toFixed(3)}</td>
                                 <td ><DemandaButton onClick={() => handleShowDemandaModal(producto)}/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
                                 <td><DeleteButton onClick={() => handleShowDeleteModal(producto)}/></td>
