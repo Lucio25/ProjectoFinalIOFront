@@ -44,8 +44,14 @@ const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, edit
                         <input type="text" className="form-control" id="descripcionProducto" name="descripcionProducto" value={editedProduct?.descripcionProducto || selectedProduct?.descripcionProducto} onChange={handleInputChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="precioProveedorProducto">Precio del Proveedor:</label>
-                        <input type="number" className="form-control" id="precioProveedorProducto" name="precioProveedorProducto" value={editedProduct?.precioProveedorProducto || selectedProduct?.precioProveedorProducto} onChange={handleInputChange} />
+                        <label htmlFor="categoriaProducto">Categoría:</label>
+                        <select className="form-control" id="category_id" name="category_id" value={editedProduct?.category.id || selectedProduct?.category.id } onChange={handleInputChange}>
+                            {categorias.map(categoria => (
+                                <option key={categoria.id} value={categoria.id}>
+                                    {categoria.nombreCategoria}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="precioVentaProducto">Precio de Venta:</label>
@@ -56,15 +62,9 @@ const ModalEditProduct = ({ showModal, handleCloseModal, handleEditProduct, edit
                         <input type="number" className="form-control" id="stock" name="stock" value={editedProduct?.stock || selectedProduct?.stock} onChange={handleInputChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="categoriaProducto">Categoría:</label>
-                        <select className="form-control" id="category_id" name="category_id" value={editedProduct?.category.id || selectedProduct?.category.id} onChange={handleInputChange}>
-                            {categorias.map(categoria => (
-                                <option key={categoria.id} value={categoria.id}>
-                                    {categoria.nombreCategoria}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                        <label htmlFor="costoAlmacenamiento">Costo de Almacenamiento:</label>
+                        <input type="number" className="form-control" id="costoAlmacenamiento" name="costoAlmacenamiento" value={editedProduct?.costoAlmacenamiento || selectedProduct?.costoAlmacenamiento} onChange={handleInputChange} />
+                    </div> 
                 </form>
             </Modal.Body>
             <Modal.Footer>

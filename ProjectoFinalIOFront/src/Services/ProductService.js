@@ -48,5 +48,17 @@ export const ProductoService = {
         await fetch(`${BASE_URL}/products/${id}`, {
             method: "DELETE"
         });
-    }
+    },
+    // Actualizar un producto por ID
+    setPromedio: async (id, n) => {
+        const response = await fetch(`${BASE_URL}/products/${id}/calculate_and_create`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(n)
+        });
+        const data = await response.json();
+        return data;
+    },
 };

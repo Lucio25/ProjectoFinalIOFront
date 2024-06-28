@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import { Modal, Button } from 'react-bootstrap';
 
-const ModalDeleteProduct = ({ show, handleClose, handleDelete }) => {
+const ModalDeleteProduct = ({ show, handleClose, handleDelete, msj }) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Confirmar Eliminación</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                ¿Estás seguro de que deseas eliminar este producto?
+                ¿Estás seguro de que deseas eliminar {msj}?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>

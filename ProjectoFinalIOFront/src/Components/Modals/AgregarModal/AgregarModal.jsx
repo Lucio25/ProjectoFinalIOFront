@@ -3,16 +3,22 @@ import { useState, useEffect} from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { ProductoService } from '../../../Services/ProductService';
 import { CategoriaService } from '../../../Services/CategoriaService';
-
-const AgregarModal = ({ show, handleClose, addProduct, nextId }) => {
+ 
+const AgregarModal = ({show, handleClose, addProduct, nextId }) => {
     const [newProduct, setNewProduct] = useState({
         id: nextId,
         nombreProducto: '',
         descripcionProducto: '',
-        precioProveedorProducto: '',
+        categoria: '',
         precioVentaProducto: '',
         stock: '',
-        categoria: '',
+        stockSeguridad: '',
+        cantidadOptimaPedido: '',
+        cantidadOrdenesPorAño: '',
+        tiempoEntreOrdenes: '',
+        costoAlmacenamiento: '',
+        costoTotalInventario: '',
+        desviacionEstandar: '',
         fechaHoraAltaProducto: null,
         fechaHoraBajaProducto: null,
         fechaHoraModificacionProducto: null
@@ -59,8 +65,15 @@ const AgregarModal = ({ show, handleClose, addProduct, nextId }) => {
             // Construir el objeto productToSubmit con solo el ID de la categoría
             const productToSubmit = {
                 ...newProduct,
-                precioProveedorProducto: parseFloat(newProduct.precioProveedorProducto),
                 precioVentaProducto: parseFloat(newProduct.precioVentaProducto),
+                stock: parseFloat(newProduct.stock),
+                cantidadOptimaPedido: parseFloat(newProduct.cantidadOptimaPedido),
+                cantidadOrdenesPorAño: parseFloat(newProduct.cantidadOrdenesPorAño),
+                cantidadOrdenesPorAño: parseFloat(newProduct.cantidadOrdenesPorAño),
+                tiempoEntreOrdenes: parseFloat(newProduct.tiempoEntreOrdenes),
+                costoAlmacenamiento: parseFloat(newProduct.costoAlmacenamiento),
+                costoTotalInventario: parseFloat(newProduct.costoTotalInventario),
+                desviacionEstandar: parseFloat(newProduct.desviacionEstandar),
                 // Asignar solo el ID de la categoría
                 category_id: categoriaId
             };
@@ -103,36 +116,6 @@ const AgregarModal = ({ show, handleClose, addProduct, nextId }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group controlId="precioProveedorProducto">
-                        <Form.Label>Precio del Proveedor del Producto</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="precioProveedorProducto"
-                            value={newProduct.precioProveedorProducto}
-                            onChange={handleChange}
-                            min="0"
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="precioVentaProducto">
-                        <Form.Label>Precio de Venta</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="precioVentaProducto"
-                            value={newProduct.precioVentaProducto}
-                            onChange={handleChange}
-                            min="0"
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="stock">
-                        <Form.Label>Stock</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="stock"
-                            value={newProduct.stock}
-                            onChange={handleChange}
-                            min="1"
-                        />
-                    </Form.Group>
                     <Form.Group controlId="categoria">
                         <Form.Label>Categoria</Form.Label>
                         <Form.Control
@@ -148,6 +131,36 @@ const AgregarModal = ({ show, handleClose, addProduct, nextId }) => {
                                 </option>
                             ))}
                         </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="precioVentaProducto">
+                        <Form.Label>Precio de Venta</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="precioVentaProducto"
+                            value={newProduct.precioVentaProducto}
+                            onChange={handleChange}
+                            min="0"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="stock">
+                        <Form.Label>Stock Actual</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="stock"
+                            value={newProduct.stock}
+                            onChange={handleChange}
+                            min="1"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="costoAlmacenamiento">
+                        <Form.Label>Costo de Almacenamiento</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="costoAlmacenamiento"
+                            value={newProduct.costoAlmacenamiento}
+                            onChange={handleChange}
+                            min="1"
+                        />
                     </Form.Group>
                 </Form>
             </Modal.Body>

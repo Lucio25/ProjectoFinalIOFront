@@ -7,6 +7,8 @@ import DetalleVenta from "../Page/DetalleVenta";
 import OrdenCompra from "../Page/OrdenCompra.jsx";
 import Proveedor from "../Page/Proveedor.jsx";
 import DetalleOrdenCompraTable from "../Page/DetalleOrdenCompra.jsx";
+import DemandaTable from "../Page/DemandaTable.jsx";
+import ProveedorProductoTable from "../Page/ProveedorProductoTable.jsx";
 
 
 
@@ -20,6 +22,8 @@ const AppRoutes = () => {
             <Route path="/Ventas" element={<Venta />} />
             <Route path="/detalleventa/:id" element={<DetalleVenta />} />
             <Route path="/detalleorden/:id" element={<DetalleOrdenCompraTable />} />
+            <Route path="/demandaproducto/:id" element={<DemandaTable />} />
+            <Route path="/proveedorProducto/:id" element={<ProveedorProductoTable />} />
             <Route path="/OrdenCompra" element={<OrdenCompra />} /> 
             <Route path="/Proveedor" element={<Proveedor />} />
         </Routes>

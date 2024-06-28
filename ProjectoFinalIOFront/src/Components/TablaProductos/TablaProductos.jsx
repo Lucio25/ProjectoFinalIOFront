@@ -8,6 +8,8 @@ import ModalDeleteProduct from "../Modals/DeleteModal/DeleteModal";
 import AgregarModal from "../Modals/AgregarModal/AgregarModal";
 import ModalEditProduct from "../Modals/EditModal/EditModal";
 import { CategoriaService } from "../../Services/CategoriaService";
+import { useNavigate } from 'react-router-dom';
+
 
 const ProductosTable = () => {
     
@@ -19,6 +21,8 @@ const ProductosTable = () => {
     const [maxId, setMaxId] = useState(0);
     const [editedProduct, setEditedProduct] = useState(null);
     const [categorias, setCategorias] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -81,6 +85,9 @@ const ProductosTable = () => {
         }
     };
 
+    const handleShowDemandaModal = (producto) => {
+        navigate(`/demandaproducto/${producto.id}`);
+    };
     const handleShowEditModal = (producto) => {
         setSelectedProduct(producto);
         setEditedProduct(producto);
@@ -149,15 +156,22 @@ const ProductosTable = () => {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Denominación</th>
+                            <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Precio del Proveedor del Producto</th>
-                            <th>Precio de Venta</th>
-                            <th>Stock Actual del Producto</th>
                             <th>Categoria</th>
-                            <th>Demanda</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            <th>Venta</th>
+                            <th>Stock</th>
+                            <th>Ss</th>
+                            <th>PP</th>
+                            <th>EOQ</th>
+                            <th>COPA</th>
+                            <th>Tiempo Ordenes</th>
+                            <th>Costo Almac.</th>
+                            <th>CGI</th>
+                            <th>σ</th>
+                            <th>D</th>
+                            <th>Edit</th>
+                            <th>Borrar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -166,11 +180,18 @@ const ProductosTable = () => {
                                 <td>{producto.id}</td>
                                 <td>{producto.nombreProducto}</td>
                                 <td>{producto.descripcionProducto}</td>
-                                <td>{producto.precioProveedorProducto}</td>
+                                <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
                                 <td>{producto.precioVentaProducto}</td>
                                 <td>{producto.stock}</td>
-                                <td>{producto.category?.nombreCategoria || "Sin categoría"}</td>
-                                <td ><DemandaButton/></td>
+                                <td>{producto.stockSeguridad}</td>
+                                <td>{producto.puntoPedido}</td>
+                                <td>{producto.cantidadOptimaPedido}</td>
+                                <td>{producto.cantidadOrdenesPorAño}</td>
+                                <td>{producto.tiempoEntreOrdenes}</td>
+                                <td>{producto.costoAlmacenamiento}</td>
+                                <td>{producto.costoGestionInventario}</td>
+                                <td>{producto.desviacionEstandar}</td>
+                                <td ><DemandaButton onClick={() => handleShowDemandaModal(producto)}/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
                                 <td><DeleteButton onClick={() => handleShowDeleteModal(producto)}/></td>
                             </tr>
@@ -181,6 +202,7 @@ const ProductosTable = () => {
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
                 handleDelete={handleDeleteProduct}
+                msj="este producto"
                 />
                 <AgregarModal
                 show={showAddModal}
