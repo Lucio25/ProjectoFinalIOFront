@@ -115,6 +115,15 @@ const AgregarProveedorProductoModal = ({ show, handleClose,  nextId, proveedor, 
                             onChange={handleChange}
                         />
                     </Form.Group>
+                    <Form.Group controlId="ZValue">
+                        <Form.Label>Valor Z</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="ZValue"
+                            value={newPP.ZValue}
+                            onChange={handleChange}
+                        />
+                    </Form.Group>
                     <Form.Group controlId="productos">
                         <Form.Label>Producto</Form.Label>
                         <Form.Control
