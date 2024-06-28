@@ -161,7 +161,8 @@ const ProductosTable = () => {
                             <th>Categoria</th>
                             <th>Venta</th>
                             <th>Stock</th>
-                            <th>S S</th>
+                            <th>Ss</th>
+                            <th>PP</th>
                             <th>EOQ</th>
                             <th>COPA</th>
                             <th>Tiempo Ordenes</th>
@@ -183,12 +184,13 @@ const ProductosTable = () => {
                                 <td>{producto.precioVentaProducto}</td>
                                 <td>{producto.stock}</td>
                                 <td>{producto.stockSeguridad}</td>
+                                <td>{producto.puntoPedido}</td>
                                 <td>{producto.cantidadOptimaPedido}</td>
                                 <td>{producto.cantidadOrdenesPorAño}</td>
                                 <td>{producto.tiempoEntreOrdenes}</td>
                                 <td>{producto.costoAlmacenamiento}</td>
-                                <td>{producto.costoTotalInventario}</td>
-                                <td>{producto.desviacionEstandar.toFixed(3)}</td>
+                                <td>{producto.costoGestionInventario}</td>
+                                <td>{producto.desviacionEstandar}</td>
                                 <td ><DemandaButton onClick={() => handleShowDemandaModal(producto)}/></td>
                                 <td><EditButton onClick={() => handleShowEditModal(producto)}/></td>
                                 <td><DeleteButton onClick={() => handleShowDeleteModal(producto)}/></td>

@@ -54,10 +54,10 @@ const DemandaTable = () => {
         setSelectedDemanda(null)
         setShowDeleteModal(false)
     };
-    const handleShowDeleteModal = (producto) => {
-        setSelectedDemanda(producto);
-        setShowDeleteModal(true);
-    };
+    // const handleShowDeleteModal = (producto) => {
+    //     setSelectedDemanda(producto);
+    //     setShowDeleteModal(true);
+    // };
     const handleDeleteProduct = async () => {
         try {
             await DemandaService.deleteDemanda(selectedDemanda.id);
@@ -134,7 +134,7 @@ const DemandaTable = () => {
                         <th>Demanda Real</th>
                         <th>Demanda Proyectada</th>
                         <th>Editar Demanda</th>
-                        <th>Eliminar Demanda</th>
+                        {/* <th>Eliminar Demanda</th> */}
 
                     </tr>
                 </thead>
@@ -145,7 +145,7 @@ const DemandaTable = () => {
                             <td>{demand.demandaReal}</td>
                             <td>{demand.demandaProyectadaPM || demand.demandaProyectadaPMP}</td>
                             <td><EditButton onClick={() => handleShowEditModal(demand)} /></td>
-                            <td><DeleteButton onClick={() => handleShowDeleteModal(demand)} /></td>
+                            {/* <td><DeleteButton onClick={() => handleShowDeleteModal(demand)} /></td> */}
                         </tr>
                     ))}
                 </tbody>
